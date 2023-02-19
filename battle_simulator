@@ -1,0 +1,58 @@
+import random
+
+# Define a dictionary of Pokemon and their stats
+pokemon_data = {
+    "Bulbasaur": {"type": "Grass/Poison", "hp": 45, "attack": 49, "defense": 49},
+    "Charmander": {"type": "Fire", "hp": 39, "attack": 52, "defense": 43},
+    "Squirtle": {"type": "Water", "hp": 44, "attack": 48, "defense": 65},
+    # Add more Pokemon data here...
+}
+
+# Define a function to simulate a battle between two Pokemon
+def battle(pokemon1, pokemon2):
+    # Determine which Pokemon goes first based on their speed
+    if pokemon1["speed"] > pokemon2["speed"]:
+        first = pokemon1
+        second = pokemon2
+    else:
+        first = pokemon2
+        second = pokemon1
+
+    # Display the starting stats of both Pokemon
+    print(first["name"], "(" + first["type"] + ") vs.", second["name"], "(" + second["type"] + ")")
+    print(first["name"], "HP:", first["hp"])
+    print(second["name"], "HP:", second["hp"])
+
+    # Continue the battle until one Pokemon's HP reaches 0
+    while first["hp"] > 0 and second["hp"] > 0:
+        # Determine the damage of the first Pokemon's attack
+        damage = int((2 * first["level"] + 10) / 250 * (first["attack"] / second["defense"]) * first["power"] + 2)
+        print(first["name"], "did", damage, "damage.")
+        # Subtract the damage from the second Pokemon's HP
+        second["hp"] -= damage
+        if second["hp"] <= 0:
+            break
+        # Determine the damage of the second Pokemon's attack
+        damage = int((2 * second["level"] + 10) / 250 * (second["attack"] / first["defense"]) * second["power"] + 2)
+        print(second["name"], "did", damage, "damage.")
+        # Subtract the damage from the first Pokemon's HP
+        first["hp"] -= damage
+
+    # Determine the winner of the battle and return the result
+    if first["hp"] > 0:
+        winner = first
+        loser = second
+    else:
+        winner = second
+        loser = first
+    print(winner["name"], "won!")
+    return winner, loser
+
+# Define variables to represent the two Pokemon in the battle
+pokemon1 = {"name": "Bulbasaur", "type": "Grass/Poison", "level": 10, "hp": 45, "attack": 49, "defense": 49, "speed": 45, "power": 35}
+pokemon2 = {"name": "Charmander", "type": "Fire", "level": 10, "hp": 39, "attack": 52, "defense": 43, "speed": 65, "power": 38}
+
+# Simulate the battle between the two Pokemon and display the results
+winner, loser = battle(pokemon1, pokemon2)
+print(winner["name"], "HP:", winner["hp"])
+print(loser["name"], "fainted.")
